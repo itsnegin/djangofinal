@@ -1,0 +1,65 @@
+{% extends 'base_soft.html' %}
+{% load i18n %}
+{% load fa_digits %}
+
+{% block title %}Sematec{% endblock %}
+{% block page_title %}Home{% endblock %}
+{% block page_heading %}Welcome{% endblock %}
+
+{% block content %}
+    <div class="card bg-gradient-primary mb-4" data-aos="fade-down" data-aos-duration="600">
+        <div class="card-body p-4 text-white">
+            <h2 class="text-white hero-title">
+                {% if request.LANGUAGE_CODE == 'fa' %}
+                 آینده‌ات رو با یادگیری بساز ؛ سماتک همراهته!
+                {% else %}
+                Your Future Starts Here. Welcome to Sematec!
+                {% endif %}
+            </h2>
+            <p class="mb-3">
+                {% if request.LANGUAGE_CODE == 'fa' %}
+                 فقط به آینده فکر نکن ؛ با یادگیری ، خودت آینده‌ات رو بساز.
+                {% else %}
+                Your next big opportunity begins with what you learn today.
+                {% endif %}
+            </p>
+            <a href="{% url 'sematec:course_list' %}" class="btn bg-white text-dark mb-0">
+                {% if request.LANGUAGE_CODE == 'fa' %}
+                      کشف دوره‌ها
+                {% else %}
+                Explore Courses
+                {% endif %}
+            </a>
+        </div>
+    </div>
+
+    <h5 class="mb-3">{% trans "Latest courses" %}</h5>
+    <div class="row">
+        {% for course in courses %}
+            <div class="col-xl-4 col-md-6 mb-4" data-aos="fade-down" data-aos-duration="600" data-aos-delay="{% widthratio forloop.counter0 1 150 %}">
+                <div class="card h-100">
+                    {% if course.image %}
+                        <div class="card-header p-3 pb-0">
+                            <img src="{{ course.image.url }}" alt="{{ course.title }}" class="w-100 border-radius-lg" style="height: 180px; object-fit: cover;">
+                        </div>
+                    {% endif %}
+                    <div class="card-body p-3">
+                        <h5 class="mb-1"><a href="{% url 'sematec:course_detail' course.pk %}">{{ course.title }}</a></h5>
+                        <p class="text-sm mb-1">
+                            {% if course.instructor %}{{ course.instructor.name }}{% else %}{{ course.teacher }}{% endif %}
+                        </p>
+                        <h6 class="mb-0">
+                            {% if request.LANGUAGE_CODE == 'fa' %}
+                              {{ course.price|fa_digits }} {% trans "Toman" %}
+                            {% else %}
+                              {{ course.price }} {% trans "Toman" %}
+                            {% endif %}
+                        </h6>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <p>{% trans "No courses yet." %}</p>
+        {% endfor %}
+    </div>
+{% endblock %}

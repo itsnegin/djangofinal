@@ -1,0 +1,86 @@
+{% extends 'base_soft.html' %}
+{% load i18n %}
+
+{% block title %}{% if teacher %}{% trans "Edit teacher" %}{% else %}{% trans "Add teacher" %}{% endif %}{% endblock %}
+{% block page_title %}{% trans "Teachers" %}{% endblock %}
+{% block page_heading %}{% if teacher %}{% trans "Edit teacher" %}{% else %}{% trans "Add teacher" %}{% endif %}{% endblock %}
+
+{% block content %}
+<div class="row">
+  <div class="col-lg-7 col-md-10">
+    <div class="card">
+      <div class="card-header pb-0">
+        <h5 class="mb-0">
+          {% if teacher %}{% trans "Edit teacher" %}: {% if request.LANGUAGE_CODE == 'fa' and teacher.name_fa %}{{ teacher.name_fa }}{% else %}{{ teacher.name }}{% endif %}{% else %}{% trans "Add teacher" %}{% endif %}
+        </h5>
+        <p class="text-sm mb-0">
+          {% if teacher %}
+              {% trans "Update the teacher's information." %}
+          {% else %}
+              {% trans "Enter the teacher's name, bio and photo." %}
+          {% endif %}
+        </p>
+      </div>
+      <div class="card-body">
+        <form method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+
+          {% if form.errors or profile_form.errors %}
+            <div class="alert alert-danger text-white" role="alert">
+             {% trans "Please fix the errors below." %}
+            </div>
+          {% endif %}
+
+          <h6 class="text-uppercase text-body text-xs font-weight-bolder">
+             {% trans "Basic information" %}
+          </h6>
+
+          {% for field in form %}
+            <div class="mb-3">
+              <label class="form-label">
+                 {{ field.label }}
+              </label>
+
+              {{ field }}
+
+              {% if field.errors %}
+                  {% for error in field.errors %}
+                      <small class="text-danger d-block">{{ error }}</small>
+                  {% endfor %}
+              {% endif %}
+            </div>
+          {% endfor %}
+
+          <h6 class="text-uppercase text-body text-xs font-weight-bolder">
+                 {% trans "Personal information" %}
+          </h6>
+
+          {% for field in profile_form %}
+              <div class="mb-3">
+                <label class="form-label" for="{{ field.id_for_label }}">
+                    {{ field.label }}
+                </label>
+
+                {{ field }}
+
+                {% for error in field.errors %}
+                   <small class="text-danger d-block">{{ error }}</small>
+                {% endfor %}
+              </div>
+          {% endfor %}
+
+          <button type="submit" class="btn bg-gradient-primary mb-0">
+            {% if teacher %}{% trans "Save changes" %}{% else %}{% trans "Save teacher" %}{% endif %}
+          </button>
+
+          <a href="{% url 'teachers' %}"
+             class="btn btn-outline-primary mb-0 ms-2">
+               {% trans "Cancel" %}
+          </a>
+        </form>
+
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

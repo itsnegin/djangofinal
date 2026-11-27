@@ -1,0 +1,92 @@
+{% extends 'base_soft.html' %}
+{% load i18n %}
+{% load fa_digits %}
+
+{% block title %}
+    {% if request.LANGUAGE_CODE == 'fa' %}مدرس{% else %}{{ instructor.name }}{% endif %}
+{% endblock %}
+
+{% block page_title %}
+    {% if request.LANGUAGE_CODE == 'fa' %}مدرس{% else %}Instructor{% endif %}
+{% endblock %}
+
+{% block page_heading %}
+    {% if request.LANGUAGE_CODE == 'fa' %}
+        {{ instructor.name_fa|default:instructor.name }}
+    {% else %}
+        {{ instructor.name }}
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    <div class="card mb-4" data-aos="fade-down" data-aos-duration="600">
+        <div class="card-body">
+            <div class="d-flex align-items-center gap-3">
+                {% if instructor.photo %}
+                    <img src="{{ instructor.photo.url }}" alt="{{ instructor.name }}" class="avatar avatar-xxl border-radius-lg" style="object-fit: cover; flex-shrink: 0; ">
+                {% endif %}
+                <div>
+                    <h4 class="mb-1">
+                        {% if request.LANGUAGE_CODE == 'fa' %}
+                            {{ instructor.name_fa|default:instructor.name }}
+                        {% else %}
+                            {{ instructor.name }}
+                        {% endif %}
+                    </h4>
+
+                    <p class="mb-0 text-sm">
+                        {% if request.LANGUAGE_CODE == 'fa' %}
+                            {{ instructor.bio_fa|default:instructor.bio|linebreaksbr }}
+                        {% else %}
+                            {{ instructor.bio|linebreaksbr }}
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h5 class="mb-3">{% if request.LANGUAGE_CODE == 'fa' %}دوره‌ها{% else %}Courses{% endif %}</h5>
+    <div class="row">
+        {% for course in courses %}
+            <div class="col-xl-4 col-md-6 mb-4" data-aos="fade-down" data-aos-duration="600" data-aos-delay="{% widthratio forloop.counter0 1 150 %}">
+                <div class="card h-100">
+                    {% if course.image %}
+                        <div class="card-header p-3 pb-0">
+                            <img src="{{ course.image.url }}" alt="{{ course.title }}" class="w-100 border-radius-lg" style="height: 180px; object-fit: cover;">
+                        </div>
+                    {% endif %}
+                    <div class="card-body p-3">
+                        {% if course.category %}
+                            <span class="badge badge-sm bg-gradient-info">
+                                {% if request.LANGUAGE_CODE == 'fa' %}
+                                    {% with n=course.category.name|lower|cut:" " %}
+                                        {% if 'data' in n or 'ai' in n %}داده و هوش مصنوعی
+                                        {% elif 'program' in n or 'python' in n %}برنامه‌نویسی
+                                        {% elif 'web' in n or 'design' in n %}طراحی وب
+                                        {% elif 'network' in n %}شبکه
+                                        {% elif 'database' in n or 'sql' in n %}پایگاه داده
+                                        {% elif 'security' in n %}امنیت
+                                        {% else %}{{ course.category.name }}{% endif %}
+                                    {% endwith %}
+                                {% else %}
+                                    {{ course.category.name }}
+                                {% endif %}
+                            </span>
+                        {% endif %}
+                        <h5 class="mt-2 mb-1"><a href="{% url 'sematec:course_detail' course.pk %}">{{ course.title }}</a></h5>
+                        <h6 class="mb-0">
+                            {% if request.LANGUAGE_CODE == 'fa' %}
+                                {{ course.price|stringformat:"d"|fa_digits }} تومان
+                            {% else %}
+                                {{ course.price }} Toman
+                            {% endif %}
+                        </h6>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <p>{% if request.LANGUAGE_CODE == 'fa' %}هنوز دوره‌ای ثبت نشده است.{% else %}No courses yet.{% endif %}</p>
+        {% endfor %}
+    </div>
+{% endblock %}

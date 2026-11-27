@@ -1,0 +1,30 @@
+{% extends 'base_soft.html' %}
+
+{% block title %}Delete student{% endblock %}
+{% block page_title %}Students{% endblock %}
+{% block page_heading %}Delete student{% endblock %}
+
+{% block content %}
+<div class="row">
+  <div class="col-lg-6 col-md-10">
+    <div class="card">
+      <div class="card-header pb-0">
+        <h5 class="mb-0">Delete student</h5>
+      </div>
+      <div class="card-body">
+        <p>
+          Are you sure you want to delete
+          <strong>{{ student.get_full_name|default:student.username }}</strong> (@{{ student.username }})?
+          Their profile and enrollments will be removed too.
+        </p>
+
+        <form method="post">
+          {% csrf_token %}
+          <button type="submit" class="btn bg-gradient-danger mb-0">Yes, delete</button>
+          <a href="{% url 'students' %}" class="btn btn-outline-primary mb-0 ms-2">Cancel</a>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

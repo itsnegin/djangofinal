@@ -1,0 +1,40 @@
+{% extends 'base_soft.html' %}
+{% load i18n %}
+{% load static %}
+
+{% block title %}Dashboard{% endblock %}
+{% block page_title %}My dashboard{% endblock %}
+{% block page_heading %}Welcome, {{ user.username }}{% endblock %}
+
+{% block content %}
+    <h5 class="mb-3">{% trans "My courses" %}</h5>
+    <div class="row">
+        {% for enrollment in enrollments %}
+            <div class="col-xl-4 col-md-6 mb-4" data-aos="fade-down" data-aos-duration="600" data-aos-delay="{% widthratio forloop.counter0 1 150 %}">
+                <div class="card h-100">
+                    {% if enrollment.course.image %}
+                        <div class="card-header p-3 pb-0">
+                            <img src="{{ enrollment.course.image.url }}" alt="{{ enrollment.course.title }}" class="w-100 border-radius-lg" style="height: 180px; object-fit: cover;">
+                        </div>
+                    {% endif %}
+                    <div class="card-body p-3">
+                        <h5 class="mb-1"><a href="{% url 'sematec:course_detail' enrollment.course.pk %}">{{ enrollment.course.title }}</a></h5>
+                        <p class="text-sm mb-1">
+                            {% if enrollment.course.instructor %}{{ enrollment.course.instructor.name }}{% else %}{{ enrollment.course.teacher }}{% endif %}
+                        </p>
+                        <p class="text-xs text-secondary mb-3">Enrolled: {{ enrollment.date_enrolled|date:"Y-m-d" }}</p>
+                        <div class="d-flex justify-content-between text-xs mb-1">
+                            <span>Progress</span>
+                            <span>{{ enrollment.done_lessons }} / {{ enrollment.total_lessons }} lessons ({{ enrollment.progress }}%)</span>
+                        </div>
+                        <div class="progress">
+                            <div class="progress-bar bg-gradient-success" role="progressbar" style="width: {{ enrollment.progress }}%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <p>{% trans "You have not enrolled in any course yet." %}</p>
+        {% endfor %}
+    </div>
+{% endblock %}

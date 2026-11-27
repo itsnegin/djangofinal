@@ -1,0 +1,52 @@
+{% extends 'base_soft.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "Dashboard" %}{% endblock %}
+
+{% block content %}
+<div class="dashboard-page">
+    <h1 class="mb-30">{% trans "Dashboard" %}</h1>
+    <p>{% trans "Welcome" %}, {{ user.username }}.</p>
+
+    <h3 class="mt-30 mb-30">{% trans "My courses" %}</h3>
+    <div class="row">
+        {% for enrollment in enrollments %}
+            <div class="col-lg-4 col-md-6 mb-30" data-aos="fade-down" data-aos-duration="600">
+                <div class="card h-100">
+                    {% if enrollment.course.image %}
+                        <img src="{{ enrollment.course.image.url }}" alt="{{ enrollment.course.title }}" class="card-img-top" style="height: 180px; object-fit: cover;">
+                    {% endif %}
+                    <div class="card-body">
+                        <h4><a href="{% url 'sematec:course_detail' enrollment.course.pk %}">{{ enrollment.course.title }}</a></h4>
+                        <p class="mb-2">{{ enrollment.course.teacher }}</p>
+                        <p class="mb-2">{% trans "Enrolled" %}: {{ enrollment.date_enrolled|date:"Y-m-d" }}</p>
+                        <p class="mb-1">{% trans "Progress" %}: {{ enrollment.done_lessons }} / {{ enrollment.total_lessons }} {% trans "lessons" %} ({{ enrollment.progress }}%)</p>
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar" style="width: {{ enrollment.progress }}%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <p>{% trans "You have not enrolled in any course yet." %}</p>
+        {% endfor %}
+    </div>
+</div>
+<style>
+    .dashboard-page h1 {
+        font-size: 26px;
+    }
+
+    .dashboard-page h3 {
+        font-size: 21px;
+    }
+
+    .dashboard-page h4 {
+        font-size: 17px;
+    }
+
+    .dashboard-page p {
+        font-size: 13px;
+    }
+</style>
+{% endblock %}

@@ -1,0 +1,882 @@
+{% load static i18n %}
+<!DOCTYPE html>
+<html lang="{{ request.LANGUAGE_CODE|default:'fa' }}"
+      dir="{% if request.LANGUAGE_CODE == 'en' %}ltr{% else %}rtl{% endif %}">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="icon" type="image/png" href="{% static 'soft/img/favicon.png' %}">
+    <title>{% block title %}Sematec{% endblock %}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="{% static 'soft/css/nucleo-icons.css' %}" rel="stylesheet">
+    <link href="{% static 'soft/css/nucleo-svg.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.1/dist/aos.css">
+    <link href="{% static 'soft/css/soft-ui-dashboard.min.css' %}" rel="stylesheet">
+
+    <style>
+        @font-face {
+    font-family: 'Estedad';
+    src: url("{% static 'soft/fonts/Estedad.woff2' %}") format('woff2');
+    font-weight: 100 900;
+    font-style: normal;
+    font-display: swap;
+}
+        body {
+        font-family: 'Vazirmatn', 'Inter', sans-serif !important;
+    }
+
+    button, input, textarea, select {
+        font-family: 'Vazirmatn', 'Inter', sans-serif !important;
+    }
+
+        #sidenav-main .navbar-nav .nav-item.mt-3 { margin-top: 0.5rem !important; margin-bottom: 0.1rem !important; }
+        #sidenav-main .nav-link { padding-top: 0.3rem !important; padding-bottom: 0.3rem !important; border-radius: 0.75rem; transition: background 0.3s ease, color 0.3s ease, box-shadow 0.3s ease; }
+        #sidenav-main .nav-link .icon { display: none !important; }
+        #sidenav-main .nav-link:hover { background: linear-gradient(310deg, #cb0c9f, #ff4d94) !important; box-shadow: 0 4px 10px rgba(203, 12, 159, 0.3); }
+        #sidenav-main .nav-link:hover .nav-link-text { color: #fff !important; }
+        #sidenav-main .nav-link.active { background: linear-gradient(310deg, #cb0c9f, #ff4d94) !important; box-shadow: 0 4px 10px rgba(203, 12, 159, 0.3); }
+        #sidenav-main .nav-link.active .nav-link-text { color: #fff !important; }
+        #sidenav-main hr.horizontal { margin-bottom: 0.3rem !important; }
+        #sidenav-main h6.text-uppercase { color: #cb0c9f !important; opacity: 1 !important; }
+        #sidenav-main .nav-link { font-size: 14px !important; font-weight: 600 !important; }
+        #sidenav-main .nav-link .nav-link-text { font-size: 14px !important;}
+
+        .card { transition: transform 0.3s ease, box-shadow 0.3s ease; }
+        .card:hover { transform: translateY(-4px); box-shadow: 0 12px 24px rgba(203, 12, 159, 0.15); }
+        .form-control, .form-select { transition: border-color 0.3s ease, box-shadow 0.3s ease; }
+        .form-control:focus, .form-select:focus { border-color: #cb0c9f !important; box-shadow: 0 0 0 3px rgba(203, 12, 159, 0.15) !important; }
+
+        .btn { transition: transform 0.2s ease, box-shadow 0.3s ease, background 0.3s ease !important; }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 6px 14px rgba(203, 12, 159, 0.3); }
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .main-content .card { animation: fadeUp 0.5s ease both; }
+        .card .card-header {
+            background: rgba(255, 77, 148, 0.12) !important;
+            border-bottom: 1px solid rgba(255, 77, 148, 0.25);
+            border-radius: 1rem 1rem 0 0;
+        }
+        .card .card-header h4,
+        .card .card-header h5,
+        .card .card-header h6 {
+            color: #ff4d94 !important;
+        }
+        .card .card-header p {
+            color: inherit;
+            opacity: 0.8;
+        }
+        /* Animated Sidebar Brand */
+#sidenav-main .brand-link {
+gap: 14px;
+text-decoration: none;
+}
+
+#sidenav-main .brand-icon {
+position: relative;
+overflow: hidden;
+isolation: isolate;
+flex-shrink: 0;
+width: 34px;
+height: 34px;
+border-radius: 10px;
+display: flex;
+align-items: center;
+justify-content: center;
+padding-top: 5px;
+line-height: 1;
+color: #fff;
+font-size: 20px;
+font-weight: 900;
+background: linear-gradient(135deg, #cb0c9f, #ff4d94, #8e44ff, #cb0c9f);
+background-size: 250% 250%;
+animation:
+sideGradient 5s ease infinite,
+sideGlow 2s ease-in-out infinite alternate,
+sideFloat 3s ease-in-out infinite;
+}
+
+#sidenav-main .brand-icon::after {
+content: “”;
+position: absolute;
+top: -50%;
+left: -100%;
+width: 55%;
+height: 200%;
+background: linear-gradient(90deg, transparent, rgba(255,255,255,0.8), transparent);
+transform: rotate(25deg);
+animation: sideShine 3s ease-in-out infinite;
+pointer-events: none;
+}
+
+#sidenav-main .brand-text {
+font-size: 18px !important;
+font-weight: 900 !important;
+background: linear-gradient(90deg, #ff4d94, #ffffff, #cb0c9f, #ff9bc2);
+background-size: 250% auto;
+background-clip: text;
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+animation: sideTextShine 3s linear infinite;
+}
+
+@keyframes sideGradient {
+0%, 100% { background-position: 0% 50%; }
+50% { background-position: 100% 50%; }
+}
+
+@keyframes sideGlow {
+from { box-shadow: 0 0 12px rgba(203,12,159,0.4); }
+to {
+box-shadow: 0 0 25px rgba(255,77,148,0.8), 0 0 40px rgba(142,68,255,0.4);
+}
+}
+
+@keyframes sideFloat {
+0%, 100% { transform: translateY(0); }
+50% { transform: translateY(-3px); }
+}
+
+@keyframes sideShine {
+0%, 15% { left: -100%; }
+65%, 100% { left: 150%; }
+}
+
+@keyframes sideTextShine {
+from { background-position: 200% center; }
+to { background-position: -200% center; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+#sidenav-main .brand-icon,
+#sidenav-main .brand-icon::after,
+#sidenav-main .brand-text {
+animation: none;
+}
+}
+        @keyframes brandGlow {
+            0%, 100% { box-shadow: 0 0 0 3px rgba(255, 77, 148, 0.25), 0 0 12px rgba(203, 12, 159, 0.45); }
+            50% { box-shadow: 0 0 0 6px rgba(255, 77, 148, 0.18), 0 0 26px rgba(203, 12, 159, 0.8); }
+        }
+
+        /* user avatar menu */
+        .user-trigger { display: flex; align-items: center; gap: 0.5rem; padding: 0 !important; }
+        .avatar-ring {
+            width: 38px; height: 38px;
+            border-radius: 50%;
+            padding: 2px;
+            background: linear-gradient(310deg, #7928ca, #ff0080);
+            display: inline-flex;
+        }
+        .avatar-ring > .inner {
+            width: 100%; height: 100%;
+            border-radius: 50%;
+            background: #fff;
+            color: #cb0c9f;
+            font-weight: 800;
+            font-size: 1rem !important;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        .avatar-ring img { width: 100%; height: 100%; object-fit: cover; }
+        .user-menu { min-width: 230px; }
+        .user-menu .dropdown-item { border-radius: 0.5rem; font-weight: 600; font-size: 0.85rem; }
+        .user-menu .dropdown-item:hover { background: rgba(203, 12, 159, 0.1); color: #cb0c9f; }
+
+        /* smooth theme change */
+        body, .card, .sidenav, .dropdown-menu, .form-control, .form-select, .bg-white { transition: background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease; }
+
+        /* dark mode */
+        body.dark-version {
+            background:
+                radial-gradient(1100px 560px at 12% -8%, #3a1a73 0%, transparent 62%),
+                radial-gradient(900px 520px at 100% 100%, #5b0f5c 0%, transparent 58%),
+                #0e0f1f !important;
+            background-attachment: fixed !important;
+        }
+        #sidenav-main .brand-text,
+        .dark-version #sidenav-main .brand-text,
+        body.dark-version .navbar-brand .brand-text {
+            color: #ff4d94 !important;
+            text-shadow: 0 0 12px rgba(255,77,148,0.45);
+        }
+
+        .dark-version .bg-gray-600 { background: transparent !important; }
+        .dark-version .sidenav { background: rgba(22, 23, 48, 0.92) !important; border: 1px solid rgba(255, 255, 255, 0.07); backdrop-filter: blur(10px); }
+        .dark-version #sidenav-main .nav-link:not(.active):not(:hover) .nav-link-text { color: #d7daf0; }
+        .dark-version .card { background: rgba(28, 30, 62, 0.78) !important; border: 1px solid rgba(255, 255, 255, 0.08); backdrop-filter: blur(8px); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35); }
+        .dark-version .card:hover { box-shadow: 0 14px 34px rgba(203, 12, 159, 0.28); }
+        .dark-version h1, .dark-version h2, .dark-version h3, .dark-version h4, .dark-version h5, .dark-version h6 { color: #f3f4ff; }
+        .dark-version .card p, .dark-version .card li, .dark-version .card label, .dark-version .card td, .dark-version .card th, .dark-version .card span { color: #cdd1ee; }
+        .dark-version .card .badge { color: #fff; }
+        .dark-version .text-dark { color: #fff !important; }
+        .dark-version .text-body { color: #d7daf0 !important; }
+        .dark-version .text-secondary { color: #a8aed6 !important; }
+        .dark-version .bg-white { background-color: #1b1d3d !important; color: #e5e7f5; }
+        .dark-version .btn.bg-white { color: #f3f4ff !important; }
+        .dark-version .breadcrumb-item.active, .dark-version .breadcrumb a { color: #d7daf0 !important; }
+        .dark-version .card a:not(.btn) { color: #ff7ac6; }
+        .dark-version .table { --bs-table-bg: transparent; color: #d7daf0; }
+        .dark-version .table > :not(caption) > * > * { background-color: transparent; color: #d7daf0; border-bottom-color: rgba(255, 255, 255, 0.08); }
+        .dark-version .form-control, .dark-version .form-select { background: #12132a; color: #fff; border-color: rgba(255, 255, 255, 0.18); }
+        .dark-version .form-control::placeholder { color: #8b90b8; }
+        .dark-version .list-group-item { background: transparent; color: #d7daf0; border-color: rgba(255, 255, 255, 0.08); }
+        .dark-version .progress { background: rgba(255, 255, 255, 0.12); }
+        .dark-version .dropdown-menu { background: #1b1d3d; border: 1px solid rgba(255, 255, 255, 0.1); }
+        .dark-version .dropdown-item { color: #d7daf0; }
+        .dark-version .dropdown-item:hover { background: rgba(203, 12, 159, 0.25); color: #fff; }
+        .dark-version .dropdown-divider { border-color: rgba(255, 255, 255, 0.12); }
+        .dark-version .avatar-ring > .inner { background: #1b1d3d; color: #ff7ac6; }
+        .dark-version hr.horizontal { background-image: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent); }
+        .dark-version .copyright, .dark-version .copyright a { color: #a8aed6 !important; }
+        /* RTL Layout */
+        html[dir="rtl"] body {
+            direction: rtl !important;
+            text-align: right;
+            font-family: 'Vazirmatn', sans-serif !important;
+        }
+        html[dir="rtl"] .hero-title {
+            font-family: 'Estedad', sans-serif !important;
+        }
+
+        html[dir="rtl"] #sidenav-main {
+            position: fixed !important;
+            left: auto !important;
+            right: 1rem !important;
+            margin-left: 0 !important;
+            margin-right: 0 !important;
+        }
+
+        html[dir="rtl"] .main-content {
+            margin-left: 0 !important;
+            margin-right: 17.125rem !important;
+            width: auto !important;
+        }
+
+        html[dir="rtl"] #navbarBlur .container-fluid {
+            direction: rtl;
+        }
+
+        html[dir="rtl"] #navbarBlur .navbar-collapse {
+            direction: rtl;
+        }
+
+        html[dir="rtl"] #navbarBlur .navbar-nav {
+            padding: 0 !important;
+            margin-right: auto !important;
+            margin-left : 0 !important;
+            flex-direction: row !important;
+            align-items: center;
+        }
+
+        html[dir="rtl"] .breadcrumb,
+        html[dir="rtl"] .dropdown-menu {
+           direction: rtl;
+           text-align: right;
+        }
+
+        html[dir="rtl"] input,
+        html[dir="rtl"] textarea,
+        html[dir="rtl"] select {
+            text-align: right;
+        }
+
+        html[dir="rtl"] select.form-select {
+            text-align: right !important;
+            padding-right: 12px !important;
+            padding-left: 40px !important;
+            background-position: left 12px center !important;
+            background-size: 12px 9px !important;
+        }
+
+        @media (max-width: 1199px) {
+            html[dir="rtl"] .main-content {
+                margin-right: 0 !important;
+            }
+        }
+        /* RTL Navbar layout fix */
+        html[dir="rtl"] #navbarBlur > .container-fluid {
+            direction: rtl !important;
+            display: flex !important;
+            flex-direction: row !important;
+        }
+
+        html[dir="rtl"] #navbarBlur > .container-fluid > #navbar {
+            order: -1 !important;
+            flex: 0 0 auto !important;
+            width: auto !important;
+        }
+
+        html[dir="rtl"] #navbarBlur > .container-fluid > nav[aria-label="breadcrumb"] {
+            order: 0 !important;
+        }
+
+        html[dir="rtl"] #navbarBlur #navbar .navbar-nav {
+            margin: 0 !important;
+        }
+
+        #themeToggle {
+    width: 35px !important;
+    height: 35px !important;
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+}
+
+       #themeToggle i {
+    font-size: 16px !important;
+    font-weight: 600;
+}
+       #themeToggle {
+           margin-left: 12px !important;
+       }
+
+       /* Smooth hover transition */
+#themeToggle,
+.language-toggle {
+    transition: all 0.3s ease !important;
+}
+
+/* Light pink hover effect */
+#themeToggle:hover,
+.language-toggle:hover {
+    background-color: #fce4ec !important;
+    color: #d63384 !important;
+    box-shadow: 0 4px 12px rgba(214, 51, 132, 0.18) !important;
+    transform: translateY(-2px);
+}
+
+/* Pink icons and text */
+#themeToggle:hover i,
+.language-toggle:hover i,
+.language-toggle:hover {
+    color: #d63384 !important;
+}
+/* Sematec Footer */
+.sematec-footer {
+margin-top: 35px;
+padding: 40px 30px 22px;
+border-radius: 20px 20px 0 0;
+background: linear-gradient(135deg, #1b1d3d, #30204f);
+color: #d7daf0;
+direction: rtl;
+text-align: right;
+}
+.sematec-footer .footer-main {
+display: grid;
+grid-template-columns: 1fr 0.8fr 1fr;
+align-items: center;
+gap: 35px;
+}
+.sematec-footer .footer-title {
+color: #ff4d94 !important;
+font-weight: 800;
+margin-bottom: 18px;
+}
+.sematec-footer p {
+color: #d7daf0;
+font-size: 14px;
+line-height: 2.2;
+}
+.sematec-footer .footer-brand {
+text-align: center;
+}
+.sematec-footer .footer-logo {
+width: 85px;
+height: 85px;
+margin: 0 auto 12px;
+display: flex;
+align-items: center;
+justify-content: center;
+border-radius: 24px;
+background: linear-gradient(135deg, #cb0c9f, #ff4d94);
+color: white;
+font-size: 55px;
+font-weight: 900;
+box-shadow: 0 8px 25px rgba(203, 12, 159, 0.3);
+}
+.sematec-footer .footer-brand h3 {
+color: #fff;
+font-weight: 900;
+margin-bottom: 4px;
+letter-spacing: 1px;
+}
+.sematec-footer .footer-brand span {
+color: #b8b9d4;
+font-size: 12px;
+letter-spacing: 2px;
+}
+.sematec-footer .footer-contact {
+padding: 22px;
+border: 1px solid rgba(255, 255, 255, 0.12);
+border-radius: 16px;
+background: rgba(255, 255, 255, 0.05);
+}
+.sematec-footer .footer-contact p {
+margin-bottom: 10px;
+}
+.sematec-footer .footer-contact i {
+color: #ff4d94;
+margin-left: 9px;
+}
+.sematec-footer .footer-divider {
+height: 1px;
+background: rgba(255, 255, 255, 0.15);
+margin: 30px 0 20px;
+}
+.sematec-footer .footer-bottom {
+color: #ff9bc2;
+text-align: center;
+font-size: 14px;
+font-weight: 700;
+}
+@media (max-width: 767px) {
+.sematec-footer {
+padding: 28px 18px 20px;
+}
+.sematec-footer .footer-main {
+    grid-template-columns: 1fr;
+    gap: 28px;
+    text-align: center;
+}
+
+.sematec-footer .footer-contact {
+    text-align: right;
+}
+}
+        /* Shiny Animated Logo */
+.sematec-footer .footer-logo {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    background: linear-gradient(
+        135deg,
+        #cb0c9f,
+        #ff4d94,
+        #8e44ff,
+        #cb0c9f
+    );
+    background-size: 250% 250%;
+    animation:
+        logoGradient 5s ease infinite,
+        logoFloat 3s ease-in-out infinite,
+        logoGlow 2s ease-in-out infinite alternate;
+}
+
+/* عبور نور براق از روی لوگو */
+.sematec-footer .footer-logo::after {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -100%;
+    width: 55%;
+    height: 200%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255,255,255,0.75),
+        transparent
+    );
+    transform: rotate(25deg);
+    animation: logoShine 3s ease-in-out infinite;
+    pointer-events: none;
+}
+
+/* تغییر رنگ گرادیان */
+@keyframes logoGradient {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+/* حرکت شناور */
+@keyframes logoFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-7px); }
+}
+
+/* درخشش ضربانی */
+@keyframes logoGlow {
+    from {
+        box-shadow: 0 0 12px rgba(203,12,159,0.4);
+    }
+    to {
+        box-shadow:
+            0 0 25px rgba(255,77,148,0.8),
+            0 0 45px rgba(142,68,255,0.4);
+    }
+}
+
+/* حرکت نور روی لوگو */
+@keyframes logoShine {
+    0%, 15% { left: -100%; }
+    65%, 100% { left: 150%; }
+}
+
+/* احترام به تنظیم کاهش حرکت دستگاه */
+@media (prefers-reduced-motion: reduce) {
+    .sematec-footer .footer-logo,
+    .sematec-footer .footer-logo::after {
+        animation: none;
+    }
+}
+        .sematec-footer .footer-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    line-height: 1;
+    padding: 10px 0 0;
+}
+        /* Shiny Sematec Text */
+.sematec-footer .footer-brand h3 {
+    background: linear-gradient(
+        90deg,
+        #ff4d94,
+        #ffffff,
+        #cb0c9f,
+        #ff9bc2
+    );
+    background-size: 250% auto;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: sematecTextShine 3s linear infinite;
+    text-shadow: 0 0 15px rgba(255, 77, 148, 0.25);
+}
+
+@keyframes sematecTextShine {
+    from {
+        background-position: 200% center;
+    }
+    to {
+        background-position: -200% center;
+    }
+}
+#sidenav-main .navbar-brand {
+         gap: 14px !important;
+    }
+.dropdown-menu .dropdown-item {
+            transition: background-color 0.3s ease, color 0.3s ease, padding 0.3s ease;
+            border-radius: 0.5rem;
+        }
+        .dropdown-menu .dropdown-item:hover,
+        .dropdown-menu .dropdown-item:focus {
+            background-color: rgba(255, 77, 148, 0.15) !important;
+            color: #d63384 !important;
+        }
+        .language-toggle,
+        .language-toggle i {
+            color: #d63384 !important;
+            font-weight: 600;
+        }
+        .dark-version .language-toggle,
+        .dark-version .language-toggle i {
+            color: #ff7ac6 !important;
+        }
+        #navbarBlur .nav-item.dropdown.pe-2 {
+            padding-right: 0 !important;
+            padding-left: 0 !important;
+        }
+        #navbarBlur .nav-item.pe-3 {
+            padding-right: 0.5rem !important;
+            padding-left: 0.5rem !important;
+        }
+        #themeToggle {
+            margin-left: 0 !important;
+            margin-right: 0 !important;
+        }
+        .course-animate {
+    animation: courseFadeDown 0.8s ease-out both;
+}
+        .course-animate {
+    animation: courseFadeDown 0.8s ease-out both;
+}
+
+.course-animate { opacity: 0; animation: courseFadeDown 0.8s ease-out forwards; }
+@keyframes courseFadeDown { 0% { opacity: 0; transform: translateY(-40px); }
+100% {
+    opacity: 1;
+    transform: translateY(0);
+}
+}
+
+
+    </style>
+</head>
+
+<body class="g-sidenav-show bg-gray-100">
+
+<aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3" id="sidenav-main">
+    <div class="sidenav-header">
+        <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
+        <a class="navbar-brand m-0 d-flex align-items-center" href="{% url 'home' %}">
+            <span class="brand-icon">S</span>
+            <span class="brand-text">Sematec</span>
+        </a>
+    </div>
+
+    <hr class="horizontal dark mt-0">
+    <div class="collapse navbar-collapse w-auto" id="sidenav-collapse-main">
+        <ul class="navbar-nav">
+
+            <li class="nav-item">
+                <a class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}" href="{% url 'home' %}">
+                    <span class="nav-link-text ms-1">🏠 {% trans "Home" %}</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link {% if request.resolver_match.app_name == 'sematec' %}active{% endif %}" href="{% url 'sematec:course_list' %}">
+                    <span class="nav-link-text ms-1">📚 {% trans "Courses" %}</span>
+                </a>
+            </li>
+
+            {% if user.is_authenticated %}
+            <li class="nav-item">
+                <a class="nav-link {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}" href="{% url 'dashboard' %}">
+                    <span class="nav-link-text ms-1">👤 {% trans "My dashboard" %}</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {% if request.resolver_match.url_name == 'profile' %}active{% endif %}" href="{% url 'profile' %}">
+                    <span class="nav-link-text ms-1">🧾 {% trans "My profile" %}</span>
+                </a>
+            </li>
+            {% endif %}
+            {% if user.is_staff %}
+            <li class="nav-item mt-3">
+                <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">{% trans "Management" %}</h6>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {% if request.resolver_match.url_name == 'manage_dashboard' %}active{% endif %}" href="{% url 'manage_dashboard' %}">
+                    <span class="nav-link-text ms-1">⚙️ {% trans "Manage" %}</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {% if request.resolver_match.url_name == 'course_create' %}active{% endif %}" href="{% url 'sematec:course_create' %}">
+                    <span class="nav-link-text ms-1">➕ {% trans "Add course" %}</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {% if request.resolver_match.url_name == 'students' %}active{% endif %}" href="{% url 'students' %}">
+                    <span class="nav-link-text ms-1">🎓 {% trans "Students" %}</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {% if request.resolver_match.url_name == 'teachers' %}active{% endif %}" href="{% url 'teachers' %}">
+                    <span class="nav-link-text ms-1">👨‍🏫 {% trans "Teachers" %}</span>
+                </a>
+            </li>
+            {% endif %}
+
+            <li class="nav-item mt-3">
+                <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">{% trans "Account" %}</h6>
+            </li>
+
+            {% if user.is_authenticated %}
+            <li class="nav-item">
+                <form method="post" action="{% url 'logout' %}">
+                    {% csrf_token %}
+                    <button type="submit" class="nav-link w-100 border-0 bg-transparent text-start">
+                        <span class="nav-link-text ms-1">🚪 {% trans "Logout" %} ({{ user.username }})</span>
+                    </button>
+                </form>
+            </li>
+            {% else %}
+            <li class="nav-item">
+                <a class="nav-link {% if request.resolver_match.url_name == 'login' %}active{% endif %}" href="{% url 'login' %}">
+                    <span class="nav-link-text ms-1">🔑 {% trans "Login" %}</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {% if request.resolver_match.url_name == 'register' %}active{% endif %}" href="{% url 'register' %}">
+                    <span class="nav-link-text ms-1">📝 {% trans "Register" %}</span>
+                </a>
+            </li>
+            {% endif %}
+
+        </ul>
+    </div>
+</aside>
+
+<main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg">
+    <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur" navbar-scroll="true">
+        <div class="container-fluid py-1 px-3">
+            <nav aria-label="breadcrumb" {% if request.LANGUAGE_CODE == 'fa' %}class="d-none"{% endif %}>
+                <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
+                    <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="{% url 'home' %}">Sematec</a></li>
+                    <li class="breadcrumb-item text-sm text-dark active" aria-current="page">{% block page_title %}Page{% endblock %}</li>
+                </ol>
+                <h6 class="font-weight-bolder mb-0">{% block page_heading %}{% endblock %}</h6>
+            </nav>
+            <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
+                <ul class="navbar-nav ms-auto justify-content-end align-items-center">
+                    <!-- Language menu -->
+                    <li class="nav-item dropdown pe-2 ">
+                     <a href="#" class="nav-link language-toggle bg-white shadow-sm border-radius-lg px-3 py-2"
+                        data-bs-toggle="dropdown">
+                         <i class="fa-solid fa-language me-2"></i>
+                         {% if request.LANGUAGE_CODE == 'fa' %}فارسی{% else %}English{% endif %}
+                     </a>
+
+                <ul class="dropdown-menu dropdown-menu-end px-2 py-3">
+                    <li>
+                        <form action="{% url 'set_language' %}" method="post">
+                                 {% csrf_token %}
+                                 <input type="hidden" name="next" value="{{ request.get_full_path }}">
+                                 <input type="hidden" name="language" value="fa">
+                                 <button type="submit" class="dropdown-item">فارسی</button>
+                             </form>
+                         </li>
+                         <li>
+                             <form action="{% url 'set_language' %}" method="post">
+                                 {% csrf_token %}
+                                 <input type="hidden" name="next" value="{{ request.get_full_path }}">
+                                 <input type="hidden" name="language" value="en">
+                                 <button type="submit" class="dropdown-item">English</button>
+                             </form>
+                         </li>
+                     </ul>
+                </li>
+
+                    <li class="nav-item pe-3">
+                        <button type="button" id="themeToggle" class="btn btn-sm bg-white shadow-sm border-radius-xl mb-0 px-3 py-2" onclick="darkMode(this)" title="Day / Night">
+                            <i class="fa-regular fa-moon" id="themeIcon"></i>
+                        </button>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        {% if user.is_authenticated %}
+                        <a href="javascript:;" class="nav-link user-trigger" data-bs-toggle="dropdown" aria-expanded="false">
+                            <span class="avatar-ring">
+                                <span class="inner">
+                                    {% if user.profile.photo %}<img src="{{ user.profile.photo.url }}" alt="{{ user.username }}">{% else %}{{ user.username|slice:":1"|upper }}{% endif %}
+                                </span>
+                            </span>
+                            <span class="d-none d-sm-inline text-sm font-weight-bold text-body">{{ user.first_name|default:user.username }}</span>
+                            <i class="fa-solid fa-chevron-down text-xs text-body"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end user-menu px-2 py-3">
+                            <li class="px-3 pb-2">
+                                <div class="text-sm font-weight-bold">{{ user.get_full_name|default:user.username }}</div>
+                                <span class="badge badge-sm bg-gradient-primary">{% if user.is_superuser %}Manager{% elif user.is_staff %}Staff{% else %}Student{% endif %}</span>
+                            </li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="{% url 'dashboard' %}">👤 {% trans "My dashboard" %}</a></li>
+                            <li><a class="dropdown-item" href="{% url 'profile' %}">🧾 {% trans "My profile" %}</a></li>
+                            {% if user.is_staff %}<li><a class="dropdown-item" href="{% url 'manage_dashboard' %}">⚙️ {% trans "Manage" %}</a></li>{% endif %}
+                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <form method="post" action="{% url 'logout' %}">
+                                    {% csrf_token %}
+                                    <button type="submit" class="dropdown-item">🚪 {% trans "Logout" %}</button>
+                                </form>
+                            </li>
+                        </ul>
+                        {% else %}
+                        <a href="{% url 'login' %}" class="nav-link text-body font-weight-bold px-0">
+                            <i class="fa fa-user me-sm-1"></i>
+                            <span class="d-sm-inline d-none">Sign In</span>
+                        </a>
+                        {% endif %}
+                    </li>
+
+                    <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
+                        <a href="javascript:;" class="nav-link text-body p-0" id="iconNavbarSidenav">
+                            <div class="sidenav-toggler-inner">
+                                <i class="sidenav-toggler-line"></i>
+                                <i class="sidenav-toggler-line"></i>
+                                <i class="sidenav-toggler-line"></i>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid py-4">
+        {% block content %}{% endblock %}
+
+        <footer class="sematec-footer">
+            <div class="footer-main">
+            <!-- معرفی سماتک - سمت راست -->
+<div class="footer-about">
+    <h4 class="footer-title">درباره سماتک</h4>
+    <p>
+        در سماتک، آموزش و مهارت‌آموزی در کنار هم قرار گرفته‌اند
+        تا بستری برای آشنایی با فناوری‌های روز و یادگیری
+        مهارت‌های کاربردی فراهم شود. این مجموعه با تمرکز بر
+        آموزش‌های تخصصی IT، زمینه یادگیری و پیشرفت در دنیای
+        فناوری را فراهم می‌کند.
+    </p>
+</div>
+
+<!-- لوگو - وسط -->
+<div class="footer-brand">
+    <div class="footer-logo">S</div>
+    <h3>Sematec</h3>
+    <span>IT Training Center</span>
+</div>
+
+<!-- ارتباط با ما - سمت چپ -->
+<div class="footer-contact">
+    <h4 class="footer-title">با ما در ارتباط باش</h4>
+
+    <p>
+        <i class="fas fa-phone"></i>
+        021-88738394
+    </p>
+
+    <p>
+        <i class="fas fa-phone"></i>
+        021-92001410
+    </p>
+
+    <p>
+        <i class="fas fa-map-marker-alt"></i>
+        تهران، خیابان سهروردی شمالی، میدان پالیزی،
+        خیابان قندی، نبش خیابان چهارم، پلاک ۱
+    </p>
+</div>
+
+        </footer>
+    </div>
+</main>
+
+<script src="{% static 'soft/js/core/popper.min.js' %}"></script>
+<script src="{% static 'soft/js/core/bootstrap.min.js' %}"></script>
+<script src="{% static 'soft/js/plugins/perfect-scrollbar.min.js' %}"></script>
+<script src="{% static 'soft/js/plugins/smooth-scrollbar.min.js' %}"></script>
+<script src="{% static 'soft/js/soft-ui-dashboard.min.js' %}"></script>
+<script src="https://cdn.jsdelivr.net/npm/aos@2.3.1/dist/aos.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () { AOS.init({ easing: 'ease-out-cubic', offset: 50, once: true, duration: 600, delay: 0, disable: false });
+AOS.refreshHard();
+});
+</script>
+<script>
+    (function () {
+        var btn = document.getElementById('themeToggle');
+        var icon = document.getElementById('themeIcon');
+        function syncIcon() {
+            var dark = !!btn.getAttribute('checked');
+            icon.className = dark ? 'fa-regular fa-sun' : 'fa-regular fa-moon';
+        }
+        try {
+            if (localStorage.getItem('sematec-dark') === '1' && !btn.getAttribute('checked')) {
+                darkMode(btn);
+            }
+        } catch (e) {}
+        syncIcon();
+        btn.addEventListener('click', function () {
+            try {
+                localStorage.setItem('sematec-dark', btn.getAttribute('checked') ? '1' : '0');
+            } catch (e) {}
+            syncIcon();
+        });
+    })();
+</script>
+</body>
+</html>

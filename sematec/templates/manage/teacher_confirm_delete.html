@@ -1,0 +1,29 @@
+{% extends 'base_soft.html' %}
+
+{% block title %}Delete teacher{% endblock %}
+{% block page_title %}Teachers{% endblock %}
+{% block page_heading %}Delete teacher{% endblock %}
+
+{% block content %}
+<div class="row">
+  <div class="col-lg-6 col-md-10">
+    <div class="card">
+      <div class="card-header pb-0">
+        <h5 class="mb-0">Delete teacher</h5>
+      </div>
+      <div class="card-body">
+        <p>
+          Are you sure you want to delete <strong>{{ teacher.name }}</strong>?
+          Their courses will stay, but will have no teacher assigned.
+        </p>
+
+        <form method="post">
+          {% csrf_token %}
+          <button type="submit" class="btn bg-gradient-danger mb-0">Yes, delete</button>
+          <a href="{% url 'teachers' %}" class="btn btn-outline-primary mb-0 ms-2">Cancel</a>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

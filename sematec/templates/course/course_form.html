@@ -1,0 +1,194 @@
+{% extends 'base_soft.html' %}
+{% load i18n %}
+
+{% block title %}{% if course %}{% trans "Edit course" %}{% else %}{% trans "Add course" %}{% endif %}{% endblock %}
+{% block page_title %}{% if course %}{% trans "Edit course" %}{% else %}{% trans "Add course" %}{% endif %}{% endblock %}
+{% block page_heading %}{% if course %}{% trans "Edit course" %}{% else %}{% trans "Add course" %}{% endif %}{% endblock %}
+
+{% block content %}
+<style>
+    .course-form-card .form-control,
+    .course-form-card .form-select {
+        display: block !important;
+        width: 100% !important;
+        min-height: 46px !important;
+        padding: 11px 15px !important;
+        background-color: #fff !important;
+        border: 1px solid #e2e4e9 !important;
+        border-radius: 10px !important;
+        color: #344767 !important;
+        font-family: 'Vazirmatn', sans-serif !important;
+        font-size: 14px !important;
+        box-shadow: none !important;
+        transition: all 0.25s ease !important;
+    }
+
+    .course-form-card textarea.form-control {
+        min-height: 120px !important;
+        resize: vertical;
+    }
+
+    .course-form-card .form-control:focus,
+    .course-form-card .form-select:focus {
+        border-color: #cb0c9f !important;
+        box-shadow: 0 0 0 3px rgba(203, 12, 159, 0.10) !important;
+        outline: none !important;
+    }
+
+    .course-form-card .form-label {
+        display: block;
+        margin-bottom: 9px;
+        font-weight: 600;
+        color: #344767;
+    }
+
+    .course-form-card .field-row {
+        margin-bottom: 20px;
+    }
+
+    .course-form-card input[type="file"].form-control {
+        height: auto !important;
+        padding: 9px !important;
+    }
+
+    .dark-version .course-form-card .form-control,
+    .dark-version .course-form-card .form-select {
+        background-color: #12132a !important;
+        color: #fff !important;
+        border-color: rgba(255,255,255,0.18) !important;
+    }
+    .course-form-card input.form-control,
+.course-form-card select.form-select,
+.course-form-card textarea.form-control {
+    border-radius: 16px !important;
+    overflow: hidden;
+}
+
+.course-form-card input.form-control,
+.course-form-card select.form-select {
+    height: 48px !important;
+}
+.custom-file-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.custom-file-wrapper input[type="file"] {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+.custom-file-button {
+    display: inline-block;
+    background: #cb0c9f;
+    color: white;
+    padding: 10px 18px;
+    border-radius: 12px;
+    cursor: pointer;
+    margin: 0;
+}
+
+.file-name {
+    color: #67748e;
+    font-size: 13px;
+}
+
+.custom-file-wrapper input[type="file"] {
+    max-width: 100%;
+}
+</style>
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="card mb-4 course-form-card">
+                <div class="card-body">
+                    <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            {% if form.non_field_errors %}
+                <div class="alert alert-danger">
+                    {% for error in form.non_field_errors %}
+                        <div>{{ error }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            {% for field in form %}
+                <div class="field-row">
+
+                    {% if field.field.widget.input_type == "checkbox" %}
+                        <div class="form-check">
+                            {{ field }}
+                            <label class="form-check-label" for="{{ field.id_for_label }}">
+                                {{ field.label }}
+                            </label>
+                        </div>
+
+                    {% else %}
+                        <label class="form-label" for="{{ field.id_for_label }}">
+                            {{ field.label }}
+                        </label>
+
+                        {% if field.name == 'image' %}
+                            <div class="custom-file-wrapper">
+                                {{ field }}
+                                <label for="{{ field.id_for_label }}" class="custom-file-button">
+                                    {% trans "Choose image" %}
+                                </label>
+                                <span class="file-name" id="file-name">
+                                    {% trans "No file chosen" %}
+                                </span>
+                            </div>
+                    {% else %}
+                        {{ field }}
+                    {% endif %}
+                {% endif %}
+                {% if field.help_text %}
+                    <div class="form-text">
+                        {{ field.help_text }}
+                    {% endif %}
+
+                    {% for error in field.errors %}
+                        <div class="text-danger small mt-1">{{ error }}</div>
+                    {% endfor %}
+                    </div>
+            {% endfor %}
+
+            <button type="submit" class="btn bg-gradient-primary">
+                {% trans "Save" %}
+            </button>
+
+            <a href="{% url 'sematec:course_list' %}" class="btn btn-outline-secondary">
+                {% trans "Cancel" %}
+            </a>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const fileInput = document.getElementById('id_image');
+    const fileName = document.getElementById('file-name');
+
+    if (fileInput && fileName) {
+        fileInput.addEventListener('change', function () {
+            fileName.textContent = this.files.length
+                ? this.files[0].name
+                : 'فایلی انتخاب نشده است';
+        });
+    }
+});
+</script>
+
+{% endblock %}

@@ -1,0 +1,75 @@
+{% extends 'base_auth.html' %}
+
+{% block title %}Register{% endblock %}
+{% block row_class %}flex-lg-row-reverse{% endblock %}
+
+{% block visual %}
+<div class="auth-visual alt">
+    <div class="float-card d1" style="top: 9%; left: 8%;"><i class="fa-solid fa-video"></i> Live Classes</div>
+    <div class="float-card d2" style="top: 8%; right: 9%;"><i class="fa-solid fa-certificate"></i> Certificates</div>
+    <div class="float-card d3" style="top: 20%; right: 4%;"><i class="fa-solid fa-infinity"></i> Lifetime Access</div>
+
+    <div class="mock-course">
+        <div class="head"><i class="fa-solid fa-graduation-cap"></i></div>
+        <div class="body">
+            <h6 class="mb-1">Python Bootcamp</h6>
+            <p class="text-xs text-secondary mb-1">24 lessons &middot; 40 hours</p>
+            <div class="stars">
+                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i>
+                <span class="text-secondary text-xs ms-1">4.8</span>
+            </div>
+            <span class="enroll">Enroll now</span>
+        </div>
+    </div>
+
+    <div class="float-card d4" style="top: 66%; left: 4%;"><i class="fa-solid fa-users"></i> Community</div>
+    <div class="float-card d5" style="top: 70%; right: 8%;"><i class="fa-solid fa-briefcase"></i> Career Support</div>
+
+    <div class="stat-row">
+        <div class="stat"><strong>120+</strong><span>Courses</span></div>
+        <div class="stat"><strong>50+</strong><span>Instructors</span></div>
+        <div class="stat"><strong>24/7</strong><span>Support</span></div>
+    </div>
+
+    <div class="auth-headline">
+        <h2 class="text-white mb-1">Start your journey today.</h2>
+        <p class="mb-0 opacity-8">Create an account and join your first course.</p>
+    </div>
+</div>
+{% endblock %}
+
+{% block form %}
+    <h3 class="font-weight-bolder text-gradient text-primary">Create your account</h3>
+    <p class="mb-4">Join Sematec and start learning today.</p>
+
+    <form method="post">
+        {% csrf_token %}
+
+        <label>Username</label>
+        <div class="mb-3">
+            <input type="text" name="username" class="form-control" placeholder="Username" value="{{ form.username.value|default:'' }}" required autofocus>
+            {% for error in form.username.errors %}<div class="text-danger text-xs mt-1">{{ error }}</div>{% endfor %}
+        </div>
+
+        <label>Password</label>
+        <div class="mb-3">
+            <input type="password" name="password1" class="form-control" placeholder="Password" required>
+            {% for error in form.password1.errors %}<div class="text-danger text-xs mt-1">{{ error }}</div>{% endfor %}
+        </div>
+
+        <label>Confirm password</label>
+        <div class="mb-3">
+            <input type="password" name="password2" class="form-control" placeholder="Repeat password" required>
+            {% for error in form.password2.errors %}<div class="text-danger text-xs mt-1">{{ error }}</div>{% endfor %}
+        </div>
+
+        <p class="text-xs text-secondary mb-0">At least 8 characters, not too common, not only numbers, and not similar to your username.</p>
+
+        <button type="submit" class="btn bg-gradient-primary w-100 mt-4 mb-0">Sign up</button>
+    </form>
+
+    <p class="mt-4 text-sm text-center">
+        Already have an account?
+        <a href="{% url 'login' %}" class="text-primary text-gradient font-weight-bold">Sign in</a>
+    </p>
+{% endblock %}

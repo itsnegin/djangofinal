@@ -1,0 +1,79 @@
+{% extends 'base_soft.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "Students" %}{% endblock %}
+{% block page_title %}{% trans "Students" %}{% endblock %}
+{% block page_heading %}{% trans "Students" %}{% endblock %}
+
+{% block content %}
+
+{% if messages %}
+  {% for message in messages %}
+    <div class="alert alert-success text-white" role="alert">{{ message }}</div>
+  {% endfor %}
+{% endif %}
+
+<div class="card">
+  <div class="card-header pb-0 d-flex justify-content-between align-items-center" style="padding-top: 15px;">
+    <h6 class="mb-0">{% trans "Students" %}</h6>
+    <a href="{% url 'student_create' %}" class="btn bg-gradient-primary mb-0" style="position: relative; top: -8px;">{% trans "Add student" %} ➕</a>
+  </div>
+  <div class="card-body px-0 pt-3 pb-2">
+    <div class="table-responsive p-0">
+      <table class="table align-items-center mb-0">
+        <thead>
+          <tr>
+            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-4">{% trans "Student" %}</th>
+            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">{% trans "Phone" %}</th>
+            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">{% trans "Email" %}</th>
+            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">{% trans "City" %}</th>
+            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">{% trans "Enrollments" %}</th>
+            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">{% trans "Actions" %}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for student in students %}
+          <tr>
+            <td class="ps-4">
+              <div class="d-flex align-items-center" style="gap: 15px;">
+                {% if student.profile.photo %}
+                  <img src="{{ student.profile.photo.url }}" alt="{{ student.username }}" class="avatar avatar-sm me-3 border-radius-lg" style="object-fit: cover;">
+                {% else %}
+                  <div class="avatar avatar-sm me-3 border-radius-lg bg-gradient-primary text-white d-flex align-items-center justify-content-center">
+                    {{ student.username|slice:":1"|upper }}
+                  </div>
+                {% endif %}
+                <div>
+                  <a href="{% url 'student_detail' student.pk %}" class="text-sm font-weight-bold">{{ student.display_name }}</a>
+                  <p class="text-xs text-secondary mb-0">@{{ student.username }}</p>
+                </div>
+              </div>
+            </td>
+            <td><p class="text-sm mb-0">{{ student.profile.phone|default:"-" }}</p></td>
+            <td><p class="text-sm mb-0">{{ student.email|default:"-" }}</p></td>
+            <td>
+              <p class="text-sm mb-0">
+                {% if current_language == 'fa' %}
+                   {{ student.profile.city_fa|default:student.profile.city|default:"-" }}
+                {% else %}
+                   {{ student.profile.city|default:"-" }}
+                {% endif %}
+              </p>
+            </td>
+            <td><span class="badge badge-sm bg-gradient-primary">{{ student.enrollments_count }}</span></td>
+            <td>
+              <a href="{% url 'student_edit' student.pk %}" class="btn btn-sm btn-outline-primary mb-0">{% trans "Edit" %} ✏️</a>
+              <a href="{% url 'student_delete' student.pk %}" class="btn btn-sm btn-outline-danger mb-0 ms-1">{% trans "Delete" %} 🗑️</a>
+            </td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="6" class="text-center py-4">{% trans "No students yet." %}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

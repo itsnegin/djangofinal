@@ -1,0 +1,365 @@
+msgid ""
+msgstr ""
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-25 23:58+0330\n"
+"Language: fa\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+msgid "Photo"
+msgstr "تصویر"
+
+msgid "Phone number"
+msgstr "شماره تماس"
+
+msgid "City"
+msgstr "شهر"
+
+msgid "Father's name"
+msgstr "نام پدر"
+
+msgid "National code"
+msgstr "کد ملی"
+
+msgid "Birth date"
+msgstr "تاریخ تولد"
+
+msgid "Gender"
+msgstr "جنسیت"
+
+msgid "Education"
+msgstr "تحصیلات"
+
+msgid "Male"
+msgstr "مرد"
+
+msgid "Female"
+msgstr "زن"
+
+msgid "Diploma"
+msgstr "دیپلم"
+
+msgid "Associate degree"
+msgstr "فوق دیپلم"
+
+msgid "Bachelor"
+msgstr "کارشناسی"
+
+msgid "Master"
+msgstr "کارشناسی ارشد"
+
+msgid "PhD"
+msgstr "دکتری"
+
+msgid "Other"
+msgstr "سایر"
+
+msgid "Dashboard"
+msgstr "داشبورد"
+
+msgid "Welcome"
+msgstr "خوش آمدید"
+
+msgid "My courses"
+msgstr "دوره‌های من"
+
+msgid "Enrolled"
+msgstr "تاریخ ثبت‌نام"
+
+msgid "Progress"
+msgstr "میزان پیشرفت"
+
+msgid "lessons"
+msgstr "درس ها"
+
+msgid "You have not enrolled in any course yet."
+msgstr "شما هنوز در هیچ دوره‌ای ثبت‌نام نکرده‌اید."
+
+msgid "My profile"
+msgstr "پروفایل من"
+
+msgid "Profile"
+msgstr "پروفایل"
+
+msgid "Fill in your information."
+msgstr "اطلاعات خود را تکمیل کنید."
+
+msgid "Please fix the errors below."
+msgstr "لطفاً اطلاعات واردشده را اصلاح کنید."
+
+msgid "Save"
+msgstr "ذخیره"
+
+msgid "Home"
+msgstr "خانه"
+
+msgid "Courses"
+msgstr "دوره‌ها"
+
+msgid "My dashboard"
+msgstr "داشبورد من"
+
+msgid "Management"
+msgstr "مدیریت"
+
+msgid "Manage"
+msgstr "مدیریت"
+
+msgid "Add course"
+msgstr "افزودن دوره"
+
+msgid "Students"
+msgstr "دانشجویان"
+
+msgid "Teachers"
+msgstr "مدرسان"
+
+msgid "Account"
+msgstr "حساب کاربری"
+
+msgid "Logout"
+msgstr "خروج"
+
+msgid "Login"
+msgstr "ورود"
+
+msgid "Register"
+msgstr "ثبت‌نام"
+
+msgid "All"
+msgstr "همه"
+
+msgid "hours"
+msgstr "ساعت"
+
+msgid "Toman"
+msgstr "تومان"
+
+msgid "Seats"
+msgstr "ظرفیت"
+
+msgid "Full"
+msgstr "تکمیل ظرفیت"
+
+msgid "No courses yet."
+msgstr "هنوز دوره‌ای ثبت نشده است."
+
+msgid "Latest courses"
+msgstr "جدیدترین دوره‌ها"
+
+msgid "Add student"
+msgstr "افزودن دانشجو"
+
+msgid "Student"
+msgstr "دانشجو"
+
+msgid "Phone"
+msgstr "تلفن"
+
+msgid "Email"
+msgstr "ایمیل"
+
+msgid "Enrollments"
+msgstr "ثبت‌نام‌ها"
+
+msgid "Actions"
+msgstr "عملیات"
+
+msgid "Edit"
+msgstr "ویرایش"
+
+msgid "Delete"
+msgstr "حذف"
+
+msgid "No students yet."
+msgstr "هنوز دانشجویی ثبت نشده است."
+
+msgid "Add teacher"
+msgstr "افزودن مدرس"
+
+msgid "Teacher"
+msgstr "مدرس"
+
+msgid "Count"
+msgstr "تعداد"
+
+msgid "No teachers yet."
+msgstr "هنوز مدرسی ثبت نشده است."
+
+msgid "Beginner"
+msgstr "مبتدی"
+
+msgid "Intermediate"
+msgstr "متوسط"
+
+msgid "Advanced"
+msgstr "پیشرفته"
+
+msgid "Comprehensive"
+msgstr "جامع"
+
+msgid "Rate"
+msgstr "امتیاز"
+
+msgid "Yes"
+msgstr "بله"
+
+msgid "No"
+msgstr "خیر"
+
+msgid "Prerequisites"
+msgstr "پیش‌نیازها"
+
+msgid "Enroll"
+msgstr "ثبت‌نام"
+
+msgid "Login to enroll"
+msgstr "ورود برای ثبت‌نام"
+
+msgid "Edit course"
+msgstr "ویرایش دوره"
+
+msgid "Cancel"
+msgstr "لغو"
+
+msgid "Course title"
+msgstr "عنوان دوره"
+
+msgid "Category"
+msgstr "دسته‌بندی"
+
+msgid "Instructor"
+msgstr "مدرس"
+
+msgid "Course image"
+msgstr "تصویر دوره"
+
+msgid "Description"
+msgstr "توضیحات"
+
+msgid "Rating"
+msgstr "امتیاز"
+
+msgid "Price"
+msgstr "قیمت"
+
+msgid "Duration"
+msgstr "مدت دوره"
+
+msgid "Level"
+msgstr "سطح دوره"
+
+msgid "Certificate"
+msgstr "گواهینامه"
+
+msgid "Capacity"
+msgstr "ظرفیت"
+
+msgid "Start date"
+msgstr "تاریخ شروع"
+
+msgid "Select a category"
+msgstr "انتخاب دسته‌بندی"
+
+msgid "Select an instructor"
+msgstr "انتخاب مدرس"
+
+msgid "Choose image"
+msgstr "انتخاب تصویر"
+
+msgid "No file chosen"
+msgstr "فایلی انتخاب نشده است"
+
+msgid "Lessons"
+msgstr "درس ها"
+
+msgid "Name (English)"
+msgstr "نام (انگلیسی)"
+
+msgid "Name (Persian)"
+msgstr "نام (فارسی)"
+
+msgid "Biography (English)"
+msgstr "بیوگرافی (انگلیسی)"
+
+msgid "Biography (Persian)"
+msgstr "بیوگرافی (فارسی)"
+
+msgid "City (English)"
+msgstr "شهر (انگلیسی)"
+
+msgid "City (Persian)"
+msgstr "شهر (فارسی)"
+
+msgid "Username"
+msgstr "نام کاربری"
+
+msgid "Password"
+msgstr "رمز عبور"
+
+msgid "Save changes"
+msgstr "ذخیره تغییرات"
+
+msgid "Save teacher"
+msgstr "ذخیره مدرس"
+
+msgid "Edit teacher"
+msgstr "ویرایش مدرس"
+
+msgid "Basic information"
+msgstr "اطلاعات اولیه"
+
+msgid "Personal information"
+msgstr "اطلاعات شخصی"
+
+msgid "Update the teacher's information."
+msgstr "اطلاعات مدرس را به‌روزرسانی کنید."
+
+msgid "Enter the teacher's name, bio and photo."
+msgstr "نام، بیوگرافی و تصویر مدرس را وارد کنید."
+
+msgid "Your profile was saved."
+msgstr "پروفایل شما ذخیره شد."
+
+msgid "Student was added."
+msgstr "دانشجو با موفقیت افزوده شد."
+
+msgid "Student was updated."
+msgstr "اطلاعات دانشجو ویرایش شد."
+
+msgid "Student was deleted."
+msgstr "دانشجو حذف شد."
+
+msgid "Teacher was added."
+msgstr "مدرس با موفقیت افزوده شد."
+
+msgid "Teacher was updated."
+msgstr "اطلاعات مدرس ویرایش شد."
+
+msgid "Teacher was deleted."
+msgstr "مدرس حذف شد."
+
+msgid "Edit student"
+msgstr "ویرایش دانشجو"
+
+msgid "Update the student's information."
+msgstr "اطلاعات دانشجو را ویرایش کنید."
+
+msgid "Create a new student account and fill in the profile."
+msgstr "یک حساب دانشجوی جدید بسازید و پروفایل را تکمیل کنید."
+
+msgid "Save student"
+msgstr "ذخیره دانشجو"
+
+msgid "First name"
+msgstr "نام"
+
+msgid "Last name"
+msgstr "نام خانوادگی"
+
+msgid "City in Persian"
+msgstr "شهر (فارسی)"
+
+msgid "students"
+msgstr "دانشجو"

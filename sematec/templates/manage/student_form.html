@@ -1,0 +1,59 @@
+{% extends 'base_soft.html' %}
+{% load i18n %}
+
+{% block title %}{% if student %}{% trans "Edit student" %}{% else %}{% trans "Add student" %}{% endif %}{% endblock %}
+{% block page_title %}{% trans "Students" %}{% endblock %}
+{% block page_heading %}{% if student %}{% trans "Edit student" %}{% else %}{% trans "Add student" %}{% endif %}{% endblock %}
+
+{% block content %}
+<div class="row">
+  <div class="col-lg-9 col-md-12">
+    <div class="card">
+      <div class="card-header pb-0">
+        <h5 class="mb-0">{% if student %}{% trans "Edit student" %}: @{{ student.username }}{% else %}{% trans "Add student" %}{% endif %}</h5>
+        <p class="text-sm mb-0">
+          {% if student %}{% trans "Update the student's information." %}{% else %}{% trans "Create a new student account and fill in the profile." %}{% endif %}
+        </p>
+      </div>
+      <div class="card-body">
+
+        <form method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+
+          {% if user_form.errors or profile_form.errors %}
+            <div class="alert alert-danger text-white" role="alert">
+              {% trans "Please fix the errors below." %}
+            </div>
+          {% endif %}
+
+          <div class="row">
+            {% for field in user_form %}
+              <div class="col-md-6 mb-3">
+                <label class="form-label">{% trans field.label %}</label>
+                {{ field }}
+                {% for error in field.errors %}
+                  <small class="text-danger d-block">{{ error }}</small>
+                {% endfor %}
+              </div>
+            {% endfor %}
+
+            {% for field in profile_form %}
+              <div class="col-md-6 mb-3">
+                <label class="form-label">{% trans field.label %}</label>
+                {{ field }}
+                {% for error in field.errors %}
+                  <small class="text-danger d-block">{{ error }}</small>
+                {% endfor %}
+              </div>
+            {% endfor %}
+          </div>
+
+          <button type="submit" class="btn bg-gradient-primary mb-0">{% if student %}{% trans "Save changes" %}{% else %}{% trans "Save student" %}{% endif %}</button>
+          <a href="{% url 'students' %}" class="btn btn-outline-primary mb-0 ms-2">{% trans "Cancel" %}</a>
+        </form>
+
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

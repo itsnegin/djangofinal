@@ -1,0 +1,82 @@
+{% extends 'base_soft.html' %}
+
+{% block title %}{{ student.get_full_name|default:student.username }}{% endblock %}
+{% block page_title %}Student{% endblock %}
+{% block page_heading %}{{ student.get_full_name|default:student.username }}{% endblock %}
+
+{% block content %}
+<div class="row">
+  <div class="col-lg-4 mb-4">
+    <div class="card h-100">
+      <div class="card-body text-center">
+        {% if profile.photo %}
+          <img src="{{ profile.photo.url }}" alt="{{ student.username }}" class="avatar avatar-xxl border-radius-lg mb-3" style="object-fit: cover;">
+        {% else %}
+          <div class="avatar avatar-xxl border-radius-lg bg-gradient-primary text-white mx-auto mb-3 d-flex align-items-center justify-content-center">
+            {{ student.username|slice:":1"|upper }}
+          </div>
+        {% endif %}
+        <h5 class="mb-0">{{ student.get_full_name|default:student.username }}</h5>
+        <p class="text-sm text-secondary">@{{ student.username }}</p>
+        <ul class="list-group text-start">
+          <li class="list-group-item border-0 ps-0 text-sm"><strong>Email:</strong> {{ student.email|default:"-" }}</li>
+          <li class="list-group-item border-0 ps-0 text-sm"><strong>Phone:</strong> {{ profile.phone|default:"-" }}</li>
+          <li class="list-group-item border-0 ps-0 text-sm"><strong>City:</strong> {{ profile.city|default:"-" }}</li>
+          <li class="list-group-item border-0 ps-0 text-sm"><strong>Father's name:</strong> {{ profile.father_name|default:"-" }}</li>
+          <li class="list-group-item border-0 ps-0 text-sm"><strong>National code:</strong> {{ profile.national_code|default:"-" }}</li>
+          <li class="list-group-item border-0 ps-0 text-sm"><strong>Birth date:</strong> {{ profile.birth_date|date:"Y-m-d"|default:"-" }}</li>
+          <li class="list-group-item border-0 ps-0 text-sm"><strong>Gender:</strong> {{ profile.get_gender_display|default:"-" }}</li>
+          <li class="list-group-item border-0 ps-0 text-sm"><strong>Education:</strong> {{ profile.get_education_display|default:"-" }}</li>
+          <li class="list-group-item border-0 ps-0 text-sm"><strong>Joined:</strong> {{ student.date_joined|date:"Y-m-d" }}</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-8 mb-4">
+    <div class="card h-100">
+      <div class="card-header pb-0">
+        <h6>Enrollments ({{ enrollments|length }})</h6>
+      </div>
+      <div class="card-body px-0 pt-0 pb-2">
+        <div class="table-responsive p-0">
+          <table class="table align-items-center mb-0">
+            <thead>
+              <tr>
+                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-4">Course</th>
+                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Enrolled</th>
+                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Progress</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for enrollment in enrollments %}
+              <tr>
+                <td class="ps-4">
+                  <a href="{% url 'sematec:course_detail' enrollment.course.pk %}" class="text-sm font-weight-bold">{{ enrollment.course.title }}</a>
+                </td>
+                <td><p class="text-sm mb-0">{{ enrollment.date_enrolled|date:"Y-m-d" }}</p></td>
+                <td style="min-width: 160px;">
+                  <div class="d-flex justify-content-between text-xs mb-1">
+                    <span>{{ enrollment.done_lessons }} / {{ enrollment.total_lessons }}</span>
+                    <span>{{ enrollment.progress }}%</span>
+                  </div>
+                  <div class="progress">
+                    <div class="progress-bar bg-gradient-success" role="progressbar" style="width: {{ enrollment.progress }}%"></div>
+                  </div>
+                </td>
+              </tr>
+              {% empty %}
+              <tr>
+                <td colspan="3" class="text-center py-4">This student has no enrollments.</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<a href="{% url 'students' %}" class="btn btn-outline-primary">&larr; Back to students</a>
+{% endblock %}

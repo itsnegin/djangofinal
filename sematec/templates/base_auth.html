@@ -1,0 +1,290 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="icon" type="image/png" href="{% static 'soft/img/favicon.png' %}">
+    <title>{% block title %}Sematec{% endblock %}</title>
+    <link href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700,800" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.2/css/all.min.css">
+    <link href="{% static 'soft/css/soft-ui-dashboard.min.css' %}" rel="stylesheet">
+    <style>
+        .auth-visual {
+            position: relative;
+            overflow: hidden;
+            min-height: 100vh;
+            color: #fff;
+            background:
+                radial-gradient(circle at 15% 18%, rgba(33, 212, 253, 0.40), transparent 38%),
+                radial-gradient(circle at 85% 78%, rgba(255, 255, 255, 0.20), transparent 42%),
+                radial-gradient(circle at 70% 12%, rgba(251, 207, 51, 0.22), transparent 30%),
+                linear-gradient(135deg, #3b1c8c 0%, #7928ca 38%, #ff0080 78%, #ff6ab0 100%);
+        }
+        .auth-visual.alt {
+            background:
+                radial-gradient(circle at 80% 15%, rgba(255, 0, 128, 0.40), transparent 36%),
+                radial-gradient(circle at 15% 80%, rgba(33, 212, 253, 0.45), transparent 40%),
+                radial-gradient(circle at 55% 55%, rgba(255, 255, 255, 0.12), transparent 40%),
+                linear-gradient(135deg, #2152ff 0%, #7928ca 52%, #cb0c9f 100%);
+        }
+        .auth-visual::before, .auth-visual::after {
+            content: "";
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.10);
+            animation: drift 14s ease-in-out infinite alternate;
+        }
+        .auth-visual::before { width: 420px; height: 420px; top: -120px; right: -120px; }
+        .auth-visual::after { width: 320px; height: 320px; bottom: -100px; left: -100px; animation-delay: 4s; }
+        @keyframes drift {
+            from { transform: translate(0, 0) scale(1); }
+            to { transform: translate(-30px, 24px) scale(1.12); }
+        }
+
+        .float-card {
+            position: absolute;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 0.6rem 1rem 0.6rem 0.6rem;
+            background: #fff;
+            color: #344767;
+            font-weight: 700;
+            font-size: 0.85rem;
+            border-radius: 1rem;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.22);
+            animation: floaty 5s ease-in-out infinite;
+            z-index: 2;
+        }
+        .float-card i {
+            width: 2.1rem;
+            height: 2.1rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 0.7rem;
+            font-size: 1.05rem;
+            color: #cb0c9f;
+            background: color-mix(in srgb, currentColor 14%, white);
+        }
+        .float-card i.fa-code { color: #2152ff; }
+        .float-card i.fa-diagram-project { color: #17ad37; }
+        .float-card i.fa-network-wired { color: #f08c00; }
+        .float-card i.fa-shield-halved { color: #ea0606; }
+        .float-card i.fa-chart-line { color: #cb0c9f; }
+        .float-card i.fa-database { color: #0ea5c6; }
+        .float-card i.fa-video { color: #ea0606; }
+        .float-card i.fa-certificate { color: #e6a700; }
+        .float-card i.fa-infinity { color: #7928ca; }
+        .float-card i.fa-users { color: #17ad37; }
+        .float-card i.fa-briefcase { color: #f08c00; }
+        .float-card.d1 { animation-delay: 0s; }
+        .float-card.d2 { animation-delay: 0.8s; }
+        .float-card.d3 { animation-delay: 1.6s; }
+        .float-card.d4 { animation-delay: 2.4s; }
+        .float-card.d5 { animation-delay: 3.2s; }
+        @keyframes floaty {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-14px); }
+        }
+
+        .code-window {
+            position: absolute;
+            top: 31%;
+            left: 11%;
+            right: 11%;
+            background: #1b2437;
+            border-radius: 1rem;
+            padding: 1rem 1.2rem;
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.35);
+            font-family: Consolas, "Courier New", monospace;
+            font-size: 0.8rem;
+            line-height: 1.7;
+            color: #cbd5e1;
+            z-index: 1;
+        }
+        .code-window .dots span {
+            display: inline-block;
+            width: 10px; height: 10px;
+            border-radius: 50%;
+            margin-right: 6px;
+            background: #475569;
+        }
+        .code-window .dots span:nth-child(1) { background: #ff5f57; }
+        .code-window .dots span:nth-child(2) { background: #febc2e; }
+        .code-window .dots span:nth-child(3) { background: #28c840; }
+        .code-window .k { color: #f472b6; }
+        .code-window .s { color: #86efac; }
+        .code-window .f { color: #93c5fd; }
+        .code-window .cursor {
+            display: inline-block;
+            width: 7px; height: 14px;
+            background: #fff;
+            vertical-align: middle;
+            animation: blink 1s steps(2) infinite;
+        }
+        @keyframes blink { 50% { opacity: 0; } }
+
+        .play-btn {
+            position: absolute;
+            right: 1rem;
+            bottom: -22px;
+            width: 46px; height: 46px;
+            border-radius: 50%;
+            background: linear-gradient(310deg, #2152ff, #21d4fd);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.5); }
+            70% { box-shadow: 0 0 0 16px rgba(255, 255, 255, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
+        }
+
+        .progress-mini { width: 150px; padding: 0.6rem 1rem; }
+        .progress-mini .bar {
+            height: 6px;
+            border-radius: 3px;
+            background: #e9ecef;
+            overflow: hidden;
+            margin-top: 4px;
+        }
+        .progress-mini .bar span {
+            display: block;
+            height: 100%;
+            width: 75%;
+            background: linear-gradient(310deg, #17ad37, #98ec2d);
+            animation: fillbar 3s ease-out infinite alternate;
+        }
+        @keyframes fillbar { from { width: 10%; } to { width: 75%; } }
+
+        .mock-course {
+            position: absolute;
+            top: 30%;
+            left: 18%;
+            right: 18%;
+            background: #fff;
+            color: #344767;
+            border-radius: 1.2rem;
+            overflow: hidden;
+            box-shadow: 0 22px 50px rgba(0, 0, 0, 0.35);
+            z-index: 1;
+            animation: floaty-slow 7s ease-in-out infinite;
+        }
+        @keyframes floaty-slow {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+        .mock-course .head {
+            height: 110px;
+            background: linear-gradient(310deg, #17ad37, #21d4fd 55%, #2152ff);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.4rem;
+            color: #fff;
+        }
+        .mock-course .body { padding: 1rem 1.2rem; }
+        .mock-course .stars { color: #fbcf33; font-size: 0.8rem; }
+        .mock-course .enroll {
+            display: inline-block;
+            margin-top: 0.7rem;
+            padding: 0.4rem 1rem;
+            border-radius: 0.6rem;
+            background: linear-gradient(310deg, #7928ca, #ff0080);
+            color: #fff;
+            font-weight: 700;
+            font-size: 0.75rem;
+            animation: pulse 2.4s infinite;
+        }
+        .stat-row {
+            position: absolute;
+            left: 9%;
+            right: 9%;
+            bottom: 22%;
+            display: flex;
+            gap: 1rem;
+            z-index: 2;
+        }
+        .stat-row .stat {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.16);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 1rem;
+            padding: 0.7rem 1rem;
+            text-align: center;
+            backdrop-filter: blur(6px);
+        }
+        .stat-row .stat strong { display: block; font-size: 1.3rem; }
+        .stat-row .stat span { font-size: 0.75rem; opacity: 0.85; }
+
+        .auth-headline {
+            position: absolute;
+            left: 9%;
+            right: 9%;
+            bottom: 7%;
+            z-index: 2;
+        }
+        .auth-form-side {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            background: #f8f9fa;
+        }
+        .auth-form-box { width: 100%; max-width: 400px; }
+    </style>
+</head>
+<body class="bg-gray-100">
+<div class="container-fluid p-0">
+    <div class="row g-0 {% block row_class %}{% endblock %}">
+        <div class="col-lg-7 d-none d-lg-block">
+            {% block visual %}
+            <div class="auth-visual">
+                <div class="float-card d1" style="top: 9%; left: 8%;"><i class="fa-solid fa-code"></i> Programming</div>
+                <div class="float-card d2" style="top: 8%; right: 9%;"><i class="fa-solid fa-diagram-project"></i> Real Projects</div>
+                <div class="float-card d3" style="top: 21%; right: 4%;"><i class="fa-solid fa-network-wired"></i> Network Engineering</div>
+
+                <div class="code-window">
+                    <div class="dots mb-2"><span></span><span></span><span></span></div>
+<div><span class="k">def</span> <span class="f">start_learning</span>():</div>
+<div>&nbsp;&nbsp;skills = [<span class="s">"Python"</span>, <span class="s">"SQL"</span>, <span class="s">"BI"</span>]</div>
+<div>&nbsp;&nbsp;<span class="k">for</span> skill <span class="k">in</span> skills:</div>
+<div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="f">print</span>(<span class="s">f"Learning {skill}"</span>)<span class="cursor"></span></div>
+                    <div class="play-btn"><i class="fa-solid fa-play"></i></div>
+                </div>
+
+                <div class="float-card d4" style="top: 62%; left: 4%;"><i class="fa-solid fa-shield-halved"></i> Cyber Security</div>
+                <div class="float-card d5" style="top: 66%; right: 8%;"><i class="fa-solid fa-chart-line"></i> Data Science</div>
+                <div class="float-card d2" style="top: 52%; left: 36%;"><i class="fa-solid fa-database"></i> Databases</div>
+                <div class="float-card d1 progress-mini" style="top: 73%; left: 14%; display: block;">
+                    <div class="d-flex justify-content-between"><span>Progress</span><span>75%</span></div>
+                    <div class="bar"><span></span></div>
+                </div>
+
+                <div class="auth-headline">
+                    <h2 class="text-white mb-1">Learn. Build. Succeed.</h2>
+                    <p class="mb-0 opacity-8">Your next career starts here.</p>
+                </div>
+            </div>
+            {% endblock %}
+        </div>
+
+        <div class="col-lg-5">
+            <div class="auth-form-side">
+                <div class="auth-form-box">
+                    <a href="{% url 'home' %}" class="text-sm text-secondary">&larr; Back to site</a>
+                    <h4 class="font-weight-bolder mt-3 mb-1">Sematec</h4>
+                    {% block form %}{% endblock %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,160 @@
+
+{% extends 'base_soft.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "Teachers" %}{% endblock %}
+{% block page_title %}{% trans "Teachers" %}{% endblock %}
+{% block page_heading %}{% trans "Teachers" %}{% endblock %}
+
+{% block content %}
+
+<style>
+    .table {
+        font-size: 13px;
+    }
+
+    .table th {
+        font-size: 12px;
+        font-weight: 600;
+    }
+
+    .table td {
+        font-size: 13px;
+    }
+
+    .table .btn {
+        font-size: 11px;
+        padding: 5px 10px;
+    }
+</style>
+<div class="container-fluid py-4">
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-success text-white">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <div class="card">
+        <div class="card-header pb-0 d-flex justify-content-between align-items-center">
+            <h4>{% trans "Teachers" %}</h4>
+
+            <a href="{% url 'teacher_create' %}" class="btn bg-gradient-primary">
+                {% trans "Add teacher" %}
+            </a>
+        </div>
+
+        <div class="card-body">
+            <div class="table-responsive">
+
+                <table class="table align-items-center mb-0">
+
+                    <thead>
+                        <tr>
+                            <th>{% trans "Photo" %}</th>
+                            <th>{% trans "Teacher" %}</th>
+                            <th>{% trans "City" %}</th>
+                            <th>{% trans "Phone number" %}</th>
+                            <th>{% trans "Email" %}</th>
+                            <th>{% trans "Courses" %}</th>
+                            <th>{% trans "Count" %}</th>
+                            <th>{% trans "Actions" %}</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        {% for t in teachers %}
+
+                            <tr>
+                                <td>
+                                    {% if t.photo %}
+                                        <img src="{{ t.photo.url }}"
+                                             alt="{{ t.display_name }}"
+                                             style="width: 50px; height: 50px; object-fit: cover; border-radius: 50%;">
+                                    {% else %}
+                                        <span>-</span>
+                                    {% endif %}
+                                </td>
+
+                                <td>
+                                    {{ t.display_name }}
+                                </td>
+
+                                <td>
+                                    {% if t.teacher_profile %}
+                                        {% if request.LANGUAGE_CODE == 'fa' and t.teacher_profile.city_fa %}
+                                            {{ t.teacher_profile.city_fa }}
+                                        {% else %}
+                                            {{ t.teacher_profile.city|default:"-" }}
+                                        {% endif %}
+                                    {% else %}
+                                        -
+                                    {% endif %}
+                                </td>
+
+                                <td>
+                                    {% if t.teacher_profile %}
+                                        {{ t.teacher_profile.phone|default:"-" }}
+                                    {% else %}
+                                        -
+                                    {% endif %}
+                                </td>
+
+                                <td>
+                                    {% if t.teacher_profile %}
+                                        {{ t.teacher_profile.email|default:"-" }}
+                                    {% else %}
+                                        -
+                                    {% endif %}
+                                </td>
+
+                                <td>
+                                    {% for c in t.courses.all %}
+                                        <span class="d-block">{{ c.title }}</span>
+                                    {% empty %}
+                                        -
+                                    {% endfor %}
+                                </td>
+
+                                <td>
+                                    {{ t.courses.all|length }}
+                                </td>
+
+                                <td>
+                                    <a href="{% url 'teacher_edit' t.pk %}"
+                                       class="btn btn-sm btn-outline-primary">
+                                        {% trans "Edit" %}
+                                    </a>
+
+                                    <a href="{% url 'teacher_delete' t.pk %}"
+                                       class="btn btn-sm btn-outline-danger">
+                                        {% trans "Delete" %}
+                                    </a>
+                                </td>
+
+                            </tr>
+
+                        {% empty %}
+
+                            <tr>
+                                <td colspan="8" class="text-center">
+                                    {% trans "No teachers yet." %}
+                                </td>
+                            </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

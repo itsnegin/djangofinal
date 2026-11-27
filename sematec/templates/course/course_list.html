@@ -1,0 +1,105 @@
+{% extends 'base_soft.html' %}
+{% load i18n %}
+{% load fa_digits %}
+
+{% block title %}{% trans "Courses" %}{% endblock %}
+{% block page_title %}{% trans "Courses" %}{% endblock %}
+{% block page_heading %}{% trans "Courses" %}{% endblock %}
+
+{% block content %}
+
+    <div class="mb-4">
+        <a href="{% url 'sematec:course_list' %}" class="btn btn-sm {% if not selected %}bg-gradient-primary{% else %}btn-outline-primary{% endif %}">{% trans "All" %}</a>
+        {% for category in categories %}
+           <a href="?category={{ category.pk }}" class="btn btn-sm {% if selected == category.pk|stringformat:'s' %}bg-gradient-primary{% else %}btn-outline-primary{% endif %}">
+    {% if current_language == 'fa' %}
+        {% if category.name == 'Programming' %}برنامه‌نویسی
+        {% elif category.name == 'Data & AI' %}داده و هوش مصنوعی
+        {% elif category.name == 'Web Design' %}طراحی وب
+        {% elif category.name == 'SQL Training' %}آموزش SQL
+        {% else %}{{ category.name }}{% endif %}
+    {% else %}
+        {{ category.name }}
+    {% endif %}
+</a>
+        {% endfor %}
+    </div>
+
+    <div class="row">
+        {% for course in courses %}
+            <div class="col-xl-4 col-md-6 mb-4 course-animate">
+                <div class="card h-100">
+                    {% if course.image %}
+                        <div class="card-header p-3 pb-0">
+                            <img src="{{ course.image.url }}" alt="{{ course.title }}" class="w-100 border-radius-lg" style="height: 180px; object-fit: cover;">
+                        </div>
+                    {% endif %}
+                    <div class="card-body p-3">
+                        {% if course.category %}
+                           <span class="badge badge-sm bg-gradient-info">
+                               {% if request.LANGUAGE_CODE == 'fa' %}
+                                  {% if course.category.name == 'Programming' %}
+                        برنامه‌نویسی
+                                  {% elif course.category.name == 'Data & AI' %}
+                        داده و هوش مصنوعی
+                                  {% elif course.category.name == 'Web Design' %}
+                        طراحی وب
+                                  {% elif course.category.name == 'SQL Training' %}
+                        آموزش SQL
+                                  {% else %}
+                                     {{ course.category.name }}
+                                  {% endif %}
+                               {% else %}
+                                  {{ course.category.name }}
+                               {% endif %}
+                           </span>
+                        {% endif %}
+                        <h5 class="mt-2 mb-1"><a href="{% url 'sematec:course_detail' course.pk %}">{{ course.title }}</a></h5>
+                        <p class="text-sm mb-1">
+                            {% if course.instructor %}
+                                <a href="{% url 'sematec:instructor_detail' course.instructor.pk %}">
+                                    {{ course.instructor.name }}
+                                </a>
+                            {% else %}
+                                {{ course.teacher }}
+                            {% endif %}
+                        </p>
+                        <p class="text-xs text-secondary mb-2">
+                            {{ course.get_level_display }} |
+                            {% if request.LANGUAGE_CODE == 'fa' %}
+                              {{ course.duration|fa_digits }}
+                            {% else %}
+                              {{ course.duration }}
+                            {% endif %}
+                            {% trans "hours" %}
+                        </p>
+                        <h6 class="mb-2">
+                            {% if request.LANGUAGE_CODE == 'fa' %}
+                              {{ course.price|fa_digits }} {% trans "Toman" %}
+                            {% else %}
+                              {{ course.price }} {% trans "Toman" %}
+                            {% endif %}
+                        </h6>
+                       
+                        <div class="d-flex justify-content-between text-xs mb-1">
+                            <span>{% trans "Seats" %}</span>
+                            <span>
+                                {% if request.LANGUAGE_CODE == 'fa' %}
+                                  {{ course.enrolled_count|fa_digits }} / {{ course.capacity|fa_digits }}
+                                {% else %}
+                                  {{ course.enrolled_count }} / {{ course.capacity }}
+                                {% endif %}
+                            </span>
+                        </div>
+                        <div class="progress">
+                            <div class="progress-bar bg-gradient-info" role="progressbar" style="width: {% widthratio course.enrolled_count course.capacity 100 %}%"></div>
+                        </div>
+                        {% if course.is_full %}<span class="badge badge-sm bg-gradient-secondary mt-2">{% trans "Full" %}</span>{% endif %}
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <p>{% trans "No courses yet." %}</p>
+        {% endfor %}
+    </div>
+{% endblock %}
